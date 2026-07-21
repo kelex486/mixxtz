@@ -13,10 +13,6 @@
             <div class="logo">
                 <span class="mixx">mixx</span><span class="tz">TZ</span>
             </div>
-            <ul class="nav-menu">
-                <li><a href="#" class="nav-link" onclick="showPage('form')">User Form</a></li>
-                <li><a href="#" class="nav-link" onclick="showPage('admin')">Admin Panel</a></li>
-            </ul>
         </div>
     </nav>
 
@@ -51,11 +47,12 @@
         </div>
     </div>
 
-    <!-- Admin Panel Page -->
-    <div id="admin-page" class="page">
+    <!-- Admin Panel Page (Hidden by default) -->
+    <div id="admin-page" class="page" style="display: none;">
         <div class="admin-container">
             <h2>Admin Panel - Entries</h2>
             <div class="admin-controls">
+                <button class="btn-back" onclick="goBack()">← Back</button>
                 <button class="btn-secondary" onclick="clearAllEntries()">Clear All Entries</button>
                 <button class="btn-secondary" onclick="exportData()">Export as CSV</button>
             </div>
