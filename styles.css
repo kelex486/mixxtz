@@ -1,0 +1,372 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-blue: #003d7a;
+    --primary-yellow: #ffc107;
+    --light-blue: #1e5fa0;
+    --dark-bg: #001a3f;
+    --text-light: #e0e0e0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #001a3f 0%, #003d7a 100%);
+    color: #333;
+    min-height: 100vh;
+}
+
+/* Navigation Bar */
+.navbar {
+    background-color: var(--primary-blue);
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logo .mixx {
+    color: var(--primary-yellow);
+    font-style: italic;
+}
+
+.logo .tz {
+    background-color: var(--primary-yellow);
+    color: var(--primary-blue);
+    padding: 0.2rem 0.6rem;
+    border-radius: 0.3rem;
+    font-weight: bold;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    cursor: pointer;
+}
+
+.nav-link:hover {
+    color: var(--primary-yellow);
+}
+
+/* Page Container */
+.page {
+    display: none;
+    min-height: calc(100vh - 70px);
+    padding: 2rem;
+    animation: fadeIn 0.3s ease;
+}
+
+.page.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Hero Section (Home Page) */
+.hero {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 3rem 2rem;
+}
+
+.logo-large {
+    font-size: 4rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.logo-large .mixx {
+    color: var(--primary-yellow);
+    font-style: italic;
+}
+
+.logo-large .tz {
+    background-color: var(--primary-yellow);
+    color: var(--primary-blue);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    margin-left: 1rem;
+}
+
+h1 {
+    color: var(--primary-yellow);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.subtitle {
+    color: var(--text-light);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.promo-box {
+    background: rgba(30, 95, 160, 0.8);
+    border-left: 5px solid var(--primary-yellow);
+    padding: 2rem;
+    margin: 2rem 0;
+    border-radius: 0.5rem;
+    backdrop-filter: blur(10px);
+}
+
+.promo-box h2 {
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.promo-box h3 {
+    color: var(--primary-yellow);
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.promo-box p {
+    color: white;
+    font-size: 1.2rem;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--primary-yellow);
+    color: var(--primary-blue);
+    border: none;
+    padding: 1rem 3rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 2rem;
+    width: 100%;
+    text-transform: uppercase;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(255, 193, 7, 0.4);
+    background-color: #ffb300;
+}
+
+.btn-secondary {
+    background-color: var(--light-blue);
+    color: white;
+    border: none;
+    padding: 0.7rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-right: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.btn-secondary:hover {
+    background-color: var(--primary-blue);
+    transform: translateY(-2px);
+}
+
+/* Form Container */
+.form-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.8rem;
+    max-width: 500px;
+    margin: 2rem auto;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.form-container h2 {
+    color: var(--primary-blue);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid #ddd;
+    border-radius: 0.4rem;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary-yellow);
+    box-shadow: 0 0 8px rgba(255, 193, 7, 0.3);
+}
+
+.form-group small {
+    display: block;
+    color: #666;
+    margin-top: 0.3rem;
+    font-size: 0.85rem;
+}
+
+/* Messages */
+.message {
+    padding: 1rem;
+    border-radius: 0.4rem;
+    text-align: center;
+    font-weight: 500;
+    margin-top: 1rem;
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Admin Panel */
+.admin-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.8rem;
+    max-width: 1000px;
+    margin: 2rem auto;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.admin-container h2 {
+    color: var(--primary-blue);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.admin-controls {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.no-entries {
+    text-align: center;
+    color: #666;
+    padding: 2rem;
+    font-size: 1.1rem;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+table thead {
+    background-color: var(--primary-blue);
+    color: white;
+}
+
+table th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+}
+
+table td {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid #ddd;
+}
+
+table tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+.timestamp {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-menu {
+        gap: 1rem;
+    }
+
+    .logo {
+        font-size: 1.3rem;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .logo-large {
+        font-size: 2.5rem;
+    }
+
+    .logo-large .tz {
+        padding: 0.3rem 0.6rem;
+        margin-left: 0.5rem;
+    }
+
+    .form-container {
+        margin: 1rem 0;
+        padding: 1.5rem;
+    }
+
+    table {
+        font-size: 0.9rem;
+    }
+
+    table th, table td {
+        padding: 0.6rem;
+    }
+
+    .btn-primary {
+        padding: 0.8rem 2rem;
+    }
+}
