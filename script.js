@@ -15,7 +15,6 @@ function showPage(pageName) {
         displayAdminEntries();
     }
 
-    // Prevent default link behavior
     return false;
 }
 
@@ -224,7 +223,7 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Initialize - show home page
+// Initialize - show form page
 window.addEventListener('load', function() {
-    showPage('home');
+    showPage('form');
 });
