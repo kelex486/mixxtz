@@ -7,9 +7,42 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Welcome/Home Page -->
+    <div id="home-page" class="page active">
+        <div class="welcome-hero">
+            <div class="logo-large">
+                <div class="logo-box">
+                    <span class="mixx">Mixx</span>
+                </div>
+                <span class="tz">TZ</span>
+            </div>
+            
+            <h1>Karibu - Welcome</h1>
+            <p class="welcome-subtitle">Chagua kile unakochohitaji:</p>
+            
+            <div class="access-buttons">
+                <div class="access-card" onclick="showPage('form')">
+                    <div class="access-icon">👤</div>
+                    <h3>Kuingiza Ombi</h3>
+                    <p>Submit Entry</p>
+                </div>
+                
+                <div class="access-card admin-card" onclick="showPage('admin')">
+                    <div class="access-icon">📊</div>
+                    <h3>Paneli ya Admin</h3>
+                    <p>Admin Panel</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- User Form Page -->
-    <div id="form-page" class="page active">
+    <div id="form-page" class="page">
         <div class="form-hero">
+            <div class="back-button-top">
+                <button class="btn-back-top" onclick="showPage('home')">← Back</button>
+            </div>
+            
             <div class="logo-large">
                 <div class="logo-box">
                     <span class="mixx">mixx</span>
@@ -42,12 +75,15 @@
         </div>
     </div>
 
-    <!-- Admin Panel Page (Hidden by default) -->
-    <div id="admin-page" class="page" style="display: none;">
+    <!-- Admin Panel Page -->
+    <div id="admin-page" class="page">
         <div class="admin-container">
+            <div class="back-button-top">
+                <button class="btn-back-top" onclick="showPage('home')">← Back</button>
+            </div>
+            
             <h2>Admin Panel - Entries</h2>
             <div class="admin-controls">
-                <button class="btn-back" onclick="goBack()">← Back</button>
                 <button class="btn-secondary" onclick="clearAllEntries()">Clear All Entries</button>
                 <button class="btn-secondary" onclick="exportData()">Export as CSV</button>
             </div>
