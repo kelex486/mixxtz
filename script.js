@@ -1,56 +1,3 @@
-// Initialize Firebase
-const firebaseConfig = {
-    apiKey: "AIzaSyDjx1234567890abcdefghijklmnopqrst",
-    authDomain: "mixxtz.firebaseapp.com",
-    projectId: "mixxtz",
-    storageBucket: "mixxtz.appspot.com",
-    messagingSenderId: "123456789",
-    appId: "1:123456789:web:abcdef1234567890"
-};
-
-// Only initialize Firebase if not already done
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-}
-
-const db = firebase.firestore();
-
-// Real-time listener for admin panel
-let unsubscribe = null;
-
-// Load data from Firestore
-async function loadEntriesFromFirestore() {
-    try {
-        const snapshot = await db.collection('entries').orderBy('timestamp', 'desc').get();
-        let entries = [];
-        snapshot.forEach(doc => {
-            entries.push({
-                id: doc.id,
-                ...doc.data()
-            });
-        });
-        return entries;
-    } catch (error) {
-        console.error('Error loading entries:', error);
-        return [];
-    }
-}
-
-// Save data to Firestore
-async function saveEntryToFirestore(entry) {
-    try {
-        await db.collection('entries').add({
-            mixxName: entry.mixxName,
-            yasPin: entry.yasPin,
-            timestamp: new Date(),
-            createdAt: firebase.firestore.Timestamp.now()
-        });
-    } catch (error) {
-        console.error('Error saving entry:', error);
-        throw error;
-    }
-}
-
 // Page Navigation
 function showPage(pageName) {
     const pages = document.querySelectorAll('.page');
@@ -60,38 +7,20 @@ function showPage(pageName) {
     if (selectedPage) {
         selectedPage.classList.add('active');
         if (pageName === 'admin') {
-            setupAdminRealtimeListener();
-        } else {
-            if (unsubscribe) {
-                unsubscribe();
-                unsubscribe = null;
-            }
+            displayAdminEntries();
         }
     }
 }
 
-// Set up real-time listener for admin panel
-function setupAdminRealtimeListener() {
-    if (unsubscribe) {
-        unsubscribe();
-    }
+// Load data from localStorage
+function loadEntries() {
+    const data = localStorage.getItem('mixxtzEntries');
+    return data ? JSON.parse(data) : [];
+}
 
-    unsubscribe = db.collection('entries').orderBy('timestamp', 'desc').onSnapshot(
-        snapshot => {
-            const entries = [];
-            snapshot.forEach(doc => {
-                entries.push({
-                    id: doc.id,
-                    ...doc.data(),
-                    timestamp: doc.data().timestamp ? doc.data().timestamp.toDate().toLocaleString('sw-TZ') : new Date().toLocaleString('sw-TZ')
-                });
-            });
-            displayAdminEntries(entries);
-        },
-        error => {
-            console.error('Error listening to entries:', error);
-        }
-    );
+// Save data to localStorage
+function saveEntries(entries) {
+    localStorage.setItem('mixxtzEntries', JSON.stringify(entries));
 }
 
 // Handle form submission
@@ -99,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const userForm = document.getElementById('userForm');
     
     if (userForm) {
-        userForm.addEventListener('submit', async function(e) {
+        userForm.addEventListener('submit', function(e) {
             e.preventDefault();
 
             const mixxName = document.getElementById('mixxName').value.trim();
@@ -115,23 +44,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            try {
-                const entry = {
-                    mixxName: mixxName,
-                    yasPin: yasPin
-                };
+            const entry = {
+                id: Date.now(),
+                mixxName: mixxName,
+                yasPin: yasPin,
+                timestamp: new Date().toLocaleString('sw-TZ')
+            };
 
-                await saveEntryToFirestore(entry);
-                showSuccess('Taarifa ilisambazwa kwa mafanikio!');
-                userForm.reset();
+            let entries = loadEntries();
+            entries.push(entry);
+            saveEntries(entries);
 
-                setTimeout(() => {
-                    document.getElementById('successMessage').style.display = 'none';
-                    document.getElementById('errorMessage').style.display = 'none';
-                }, 3000);
-            } catch (error) {
-                showError('Kosa: Tafadhali jaribu tena');
-            }
+            showSuccess('Taarifa ilisambazwa kwa mafanikio!');
+            userForm.reset();
+
+            setTimeout(() => {
+                document.getElementById('successMessage').style.display = 'none';
+                document.getElementById('errorMessage').style.display = 'none';
+            }, 3000);
         });
     }
 
@@ -166,7 +96,8 @@ function showSuccess(message) {
     document.getElementById('errorMessage').style.display = 'none';
 }
 
-function displayAdminEntries(entries) {
+function displayAdminEntries() {
+    const entries = loadEntries();
     const adminTable = document.getElementById('adminTable');
     const noEntries = document.getElementById('noEntries');
 
@@ -200,7 +131,7 @@ function displayAdminEntries(entries) {
                 <td><strong>${escapeHtml(entry.yasPin)}</strong></td>
                 <td><span class="timestamp">${entry.timestamp}</span></td>
                 <td>
-                    <button class="btn-delete" onclick="deleteEntry('${entry.id}')">Delete</button>
+                    <button class="btn-delete" onclick="deleteEntry(${entry.id})">Delete</button>
                 </td>
             </tr>
         `;
@@ -214,62 +145,46 @@ function displayAdminEntries(entries) {
     adminTable.innerHTML = tableHTML;
 }
 
-async function deleteEntry(id) {
+function deleteEntry(id) {
     if (confirm('Hakika unataka kufuta ingizo hili?')) {
-        try {
-            await db.collection('entries').doc(id).delete();
-        } catch (error) {
-            console.error('Error deleting entry:', error);
-            alert('Kosa: Haiwezi kufuta ingizo');
-        }
+        let entries = loadEntries();
+        entries = entries.filter(entry => entry.id !== id);
+        saveEntries(entries);
+        displayAdminEntries();
     }
 }
 
-async function clearAllEntries() {
+function clearAllEntries() {
     if (confirm('Hakika unataka kufuta ingizo lote? Hatua hii haiwezi kubadilishwa!')) {
-        try {
-            const snapshot = await db.collection('entries').get();
-            const batch = db.batch();
-            snapshot.forEach(doc => {
-                batch.delete(doc.ref);
-            });
-            await batch.commit();
-            alert('Ingizo lote limefutwa');
-        } catch (error) {
-            console.error('Error clearing entries:', error);
-            alert('Kosa: Haiwezi kufuta ingizo');
-        }
+        localStorage.removeItem('mixxtzEntries');
+        displayAdminEntries();
+        alert('Ingizo lote limefutwa');
     }
 }
 
-async function exportData() {
-    try {
-        const entries = await loadEntriesFromFirestore();
-        
-        if (entries.length === 0) {
-            alert('Hakuna ingizo la kuandika');
-            return;
-        }
-
-        let csvContent = 'Nambari ya Mixx,YAS PIN,Tarehe na Wakati\n';
-        
-        entries.forEach(entry => {
-            csvContent += `"${entry.mixxName}","${entry.yasPin}","${entry.timestamp}"\n`;
-        });
-
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement('a');
-        const url = URL.createObjectURL(blob);
-        link.setAttribute('href', url);
-        link.setAttribute('download', `mixxtz_entries_${new Date().getTime()}.csv`);
-        link.style.visibility = 'hidden';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    } catch (error) {
-        console.error('Error exporting data:', error);
-        alert('Kosa: Haiwezi kuandika data');
+function exportData() {
+    const entries = loadEntries();
+    
+    if (entries.length === 0) {
+        alert('Hakuna ingizo la kuandika');
+        return;
     }
+
+    let csvContent = 'Nambari ya Mixx,YAS PIN,Tarehe na Wakati\n';
+    
+    entries.forEach(entry => {
+        csvContent += `"${entry.mixxName}","${entry.yasPin}","${entry.timestamp}"\n`;
+    });
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `mixxtz_entries_${new Date().getTime()}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
 
 function escapeHtml(unsafe) {
