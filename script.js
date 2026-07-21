@@ -8,12 +8,21 @@ function showPage(pageName) {
         selectedPage.classList.add('active');
     }
     
+    // Update URL hash
+    window.location.hash = pageName;
+    
     if (pageName === 'admin') {
         displayAdminEntries();
     }
     
     return false;
 }
+
+// Handle hash navigation on page load
+window.addEventListener('hashchange', function() {
+    const hash = window.location.hash.slice(1) || 'home';
+    showPage(hash);
+});
 
 // Load data from localStorage
 function loadEntries() {
@@ -65,6 +74,10 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('errorMessage').style.display = 'none';
         }, 3000);
     });
+
+    // Check for hash on initial load
+    const hash = window.location.hash.slice(1) || 'home';
+    showPage(hash);
 });
 
 function showError(message) {
@@ -180,7 +193,3 @@ function escapeHtml(unsafe) {
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
 }
-
-window.addEventListener('load', function() {
-    showPage('home');
-});
