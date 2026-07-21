@@ -19,7 +19,6 @@ body {
     min-height: 100vh;
 }
 
-/* Page Container */
 .page {
     display: none;
     min-height: 100vh;
@@ -36,7 +35,6 @@ body {
     to { opacity: 1; }
 }
 
-/* Welcome Page */
 .welcome-hero {
     max-width: 1000px;
     margin: 0 auto;
@@ -94,7 +92,6 @@ h1 {
     margin-bottom: 3rem;
 }
 
-/* Access Buttons */
 .access-buttons {
     display: flex;
     justify-content: center;
@@ -112,6 +109,11 @@ h1 {
     cursor: pointer;
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: inherit;
 }
 
 .access-card:hover {
@@ -140,34 +142,11 @@ h1 {
     font-size: 1rem;
 }
 
-/* Form Hero Section */
 .form-hero {
     max-width: 600px;
     margin: 0 auto;
     text-align: center;
     padding: 2rem;
-}
-
-.back-button-top {
-    margin-bottom: 2rem;
-    text-align: left;
-}
-
-.btn-back-top {
-    background-color: rgba(30, 95, 160, 0.6);
-    color: white;
-    border: 2px solid var(--primary-yellow);
-    padding: 0.7rem 1.5rem;
-    font-size: 1rem;
-    font-weight: 500;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.btn-back-top:hover {
-    background-color: var(--primary-yellow);
-    color: var(--primary-blue);
 }
 
 .form-hero h1 {
@@ -208,7 +187,6 @@ h1 {
     font-size: 1.2rem;
 }
 
-/* Form */
 .main-form {
     display: flex;
     flex-direction: column;
@@ -237,7 +215,6 @@ h1 {
     box-shadow: 0 0 12px rgba(255, 193, 7, 0.4);
 }
 
-/* Buttons */
 .btn-primary {
     background-color: var(--primary-yellow);
     color: var(--primary-blue);
@@ -278,7 +255,6 @@ h1 {
     transform: translateY(-2px);
 }
 
-/* Messages */
 .message {
     padding: 1rem;
     border-radius: 0.4rem;
@@ -299,7 +275,6 @@ h1 {
     border: 1px solid #f5c6cb;
 }
 
-/* Admin Panel */
 .admin-container {
     background: rgba(255, 255, 255, 0.95);
     padding: 2rem;
@@ -326,7 +301,6 @@ h1 {
     font-size: 1.1rem;
 }
 
-/* Table Styles */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -377,7 +351,6 @@ table tbody tr:nth-child(even) {
     background-color: #c82333;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     h1 {
         font-size: 2rem;
