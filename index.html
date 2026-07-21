@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mixxtz - YAS Tigo Pesa</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="mixx">mixx</span><span class="tz">TZ</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#" class="nav-link" onclick="showPage('home')">Home</a></li>
+                <li><a href="#" class="nav-link" onclick="showPage('user')">User Form</a></li>
+                <li><a href="#" class="nav-link" onclick="showPage('admin')">Admin Panel</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home-page" class="page active">
+        <div class="hero">
+            <div class="logo-large">
+                <span class="mixx">mixx</span><span class="tz">TZ</span>
+            </div>
+            <h1>Umejishindia Ofa Wa YAS Tigo Pesa</h1>
+            <p class="subtitle">Karibuni Ingiza namba yako ya simu na Neno Siri (YAS PIN - 4 namba) ili kupata ofa.</p>
+            
+            <div class="promo-box">
+                <h2>UMEJISHINDIA</h2>
+                <h3>100 GB</h3>
+                <p>Data ya bure kwako!</p>
+            </div>
+
+            <button class="btn-primary" onclick="showPage('user')">POKEA DATA</button>
+        </div>
+    </div>
+
+    <!-- User Form Page -->
+    <div id="user-page" class="page">
+        <div class="form-container">
+            <h2>Ingiza Taarifa Yako</h2>
+            <form id="userForm">
+                <div class="form-group">
+                    <input type="text" id="mixxName" placeholder="Nambari ya Mixx" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="yasPin" placeholder="YAS Nambari ya Siri" maxlength="4" required>
+                    <small>PIN ya 4 namba</small>
+                </div>
+                <button type="submit" class="btn-primary">POKEA DATA</button>
+            </form>
+            <div id="successMessage" class="message success" style="display: none;">
+                ✓ Taarifa ilisambazwa kwa mafanikio!
+            </div>
+            <div id="errorMessage" class="message error" style="display: none;"></div>
+        </div>
+    </div>
+
+    <!-- Admin Panel Page -->
+    <div id="admin-page" class="page">
+        <div class="admin-container">
+            <h2>Admin Panel - Entries</h2>
+            <div class="admin-controls">
+                <button class="btn-secondary" onclick="clearAllEntries()">Clear All Entries</button>
+                <button class="btn-secondary" onclick="exportData()">Export as CSV</button>
+            </div>
+            <div id="adminTable"></div>
+            <div id="noEntries" class="no-entries" style="display: none;">
+                <p>No entries yet</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
