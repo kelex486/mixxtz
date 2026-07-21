@@ -1,21 +1,22 @@
 // Page Navigation
 function showPage(pageName) {
-    // Hide all pages
     const pages = document.querySelectorAll('.page');
-    pages.forEach(page => page.classList.remove('active'));
-
-    // Show selected page
+    pages.forEach(page => page.style.display = 'none');
+    
     const selectedPage = document.getElementById(pageName + '-page');
     if (selectedPage) {
-        selectedPage.classList.add('active');
+        selectedPage.style.display = 'block';
     }
-
-    // If admin page, load entries
+    
     if (pageName === 'admin') {
         displayAdminEntries();
     }
-
+    
     return false;
+}
+
+function goBack() {
+    showPage('form');
 }
 
 // Load data from localStorage
@@ -181,7 +182,6 @@ function exportData() {
         csvContent += `"${entry.mixxName}","${entry.yasPin}","${entry.timestamp}"\n`;
     });
 
-    // Create blob and download
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
@@ -203,7 +203,7 @@ function escapeHtml(unsafe) {
         .replace(/'/g, "&#039;");
 }
 
-// Add delete button styles
+// Add button styles
 const style = document.createElement('style');
 style.textContent = `
     .btn-delete {
@@ -220,10 +220,35 @@ style.textContent = `
     .btn-delete:hover {
         background-color: #c82333;
     }
+
+    .btn-back {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        padding: 0.7rem 1.5rem;
+        font-size: 0.95rem;
+        font-weight: 500;
+        border-radius: 0.3rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-right: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .btn-back:hover {
+        background-color: #5a6268;
+        transform: translateY(-2px);
+    }
 `;
 document.head.appendChild(style);
 
-// Initialize - show form page
+// Check for admin access - type "admin" in console to access
+window.admin = {
+    show: function() {
+        showPage('admin');
+    }
+};
+
 window.addEventListener('load', function() {
     showPage('form');
 });
